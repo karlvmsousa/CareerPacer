@@ -44,6 +44,21 @@ avoids ambiguity when domain and technical meanings could collide (e.g.
 
 ---
 
+## Naming conventions
+
+- **Prefer full words over abbreviations** in field, folder, and file
+  names (e.g. `evaluation/` not `evals/`). When in doubt, spell it out.
+- **Exception: established domain acronyms.** Terms that are already
+  standard industry vocabulary — defined in the "Domain terms" table
+  above (e.g. `IDP`, `OKR`, `PIP`, `1:1`/`1on1`) — are not
+  project-invented shorthand, so they're exempt from this rule.
+  `data/idp/` and `data/1on1/` are intentional, matching the
+  `IDPAction`/`OneOnOne` entity names and the terms as used throughout
+  this glossary, whereas something like `evals` was a project-specific
+  abbreviation with no such standing.
+
+---
+
 ## Open questions to resolve as terminology firms up
 
 - Should `PerformanceEval` support a numeric `rating` field, given not all
