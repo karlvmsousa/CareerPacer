@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://careerpacer/schema/1on1.schema.json",
+  "title": "OneOnOne",
+  "$comment": "Describes the YAML frontmatter of a data/1on1/*.md file. The Markdown body below the frontmatter holds freeform discussion notes and is not validated here. Informal/lightweight for MVP — not enforced yet, just a shared reference for the Skill and dashboard parser.",
+  "type": "object",
+  "required": ["id", "date", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this 1:1, e.g. \"1on1-2026-07-20\". Used by IDPAction.linked_evidence and other references."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the 1:1 took place (or is scheduled to take place), YYYY-MM-DD."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "logged"],
+      "description": "\"draft\" while this file is a prep note for an upcoming 1:1 that hasn't happened yet; flipped to \"logged\" once the meeting happens and real notes are added. Replaces the earlier separate NextMeetingDraft concept — there is only ever one file per 1:1."
+    },
+    "attendees": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Names/handles of people present (e.g. employee, manager)."
+    },
+    "follow_ups": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Short freeform action items or things to revisit next time. Distinct from formal IDPAction entries — promote to an IDPAction if it warrants tracking with dates/status."
+    },
+    "linked_actions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs of IDPAction entries discussed or affected by this 1:1, e.g. \"idp-2026-001\" (referential integrity checked later, not at MVP stage)."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional freeform labels (e.g. \"promotion-track\", \"quarterly-check-in\")."
+    }
+  },
+  "additionalProperties": true
+}

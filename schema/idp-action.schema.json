@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://careerpacer/schema/idp-action.schema.json",
+  "title": "IDPAction file (data/idp/<year>.md)",
+  "$comment": "One file per year, named by the year its actions were created (e.g. data/idp/2026.md), holding multiple actions in a single frontmatter list. If an action's target_date extends into a later year, it stays in its original file -- no migration between files; the filename reflects when the goal was set, not when it's due. The Markdown body (if used) is freeform notes and is not validated here. Informal/lightweight for MVP -- not enforced yet, just a shared reference for the Skill and dashboard parser.",
+  "type": "object",
+  "required": ["year", "actions"],
+  "properties": {
+    "year": {
+      "type": "integer",
+      "description": "The year this file represents (matches the filename) -- when the actions in it were created/set, not necessarily when they're due."
+    },
+    "actions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/idpAction" },
+      "description": "All IDPAction entries created during this year."
+    }
+  },
+  "definitions": {
+    "idpAction": {
+      "type": "object",
+      "required": ["id", "title", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier, e.g. \"idp-2026-001\" (year matches the file it lives in). Referenced by OneOnOne.linked_actions and PerformanceEval.growth_areas."
+        },
+        "title": {
+          "type": "string",
+          "description": "Short description of the development goal, e.g. \"Lead a cross-team migration project\"."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "in_progress", "done", "blocked"],
+          "description": "Lifecycle state: not_started -> in_progress -> (done | blocked)."
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "When work on this action began, YYYY-MM-DD."
+        },
+        "target_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Goal completion date, YYYY-MM-DD. May fall in a later year than the file itself -- the action still stays in its original (creation-year) file. Business rule (enforced later): must be on/after start_date."
+        },
+        "linked_evidence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Free-text, date-prefixed entries demonstrating progress, e.g. \"[2026-07-04] Manager confirmed intent to assign Q3 migration lead role\". Not strict IDs -- referential integrity is Post-MVP."
+        },
+        "source": {
+          "type": "string",
+          "description": "Optional origin of this action, e.g. a 1:1 or performance evaluation ID it was first raised in (e.g. \"1on1-2026-06-15\" or \"eval-2026-annual\")."
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
