@@ -1,0 +1,19 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+
+# Node
+node_modules/
+npm-debug.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Real personal career data — never committed. examples/data/ is separate
+# and stays tracked.
+/data/
