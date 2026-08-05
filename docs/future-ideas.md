@@ -1,0 +1,103 @@
+# Future Ideas
+
+This file is for feature ideas that are **not part of the core architecture**
+but would be valuable additions — especially ones that make sense as
+community contributions. Unlike `backlog.md` (committed, in-progress work),
+entries here are proposals: not yet designed in detail, not committed to a
+specific implementation, open for discussion.
+
+If you'd like to pick one of these up, open an issue to discuss the design
+before submitting a PR — several of these have real architectural
+trade-offs worth agreeing on first.
+
+**Status legend:** 💡 Proposed · 🔍 Exploring · 📐 Design agreed, not built
+
+---
+
+## 💡 Calendar integration (Google Calendar)
+
+**The idea:** Suggest and/or create calendar events/reminders for things like:
+- Scheduling the next 1:1 (if none exists within your stated cadence)
+- Prep time before an upcoming 1:1
+- Self-evaluation reminders ahead of a known review cycle
+- IDP check-in nudges (e.g. "3 actions due in the next 2 weeks")
+- Evidence-gathering nudges for actions approaching their target date with no logged evidence
+
+**Architectural note:** This is deliberately **out of the core architecture**
+for *live sync/creation* on the user's calendar. Note this is distinct from
+simple `.ics` file generation (see `backlog.md`), which requires no external
+access and is already core-scope — this section is specifically about
+Claude reading/writing events directly on a connected calendar account, or
+proactively nudging based on calendar state. The core project has no backend
+and no credentials — it works by cloning Markdown files. Calendar
+*integration* (as opposed to `.ics` export) requires calendar access, which
+means one of two very different paths:
+
+- **Option A — MCP-based (lightweight, recommended default):** `SKILL.md`
+  includes instructions like "if a Google Calendar MCP tool is available,
+  offer to schedule/remind." No code lives in this repo — the capability is
+  provided by whichever Claude surface (Claude.ai, Desktop, Code) has the
+  connector enabled. Works only in environments with that connector
+  configured; degrades gracefully (no calendar suggestions) everywhere else.
+- **Option B — Direct API integration:** A `tools/calendar/` script that
+  authenticates directly with the Google Calendar API (OAuth). Works
+  independent of which agent/Skill-runner is used, but reintroduces
+  credential storage and a real dependency — a meaningful departure from
+  "no backend, just files."
+
+**Open question:** Do we support both, pick one, or leave this entirely to
+forks that want it? Option A keeps the core project's simplicity intact and
+is the more natural fit for an MCP-aware Skill; Option B is more portable
+but heavier.
+
+---
+
+## 💡 Other ideas worth capturing
+
+- **Slack/Teams reminders** — same shape as the calendar idea, same
+  MCP-vs-direct-API trade-off.
+- **Export to PDF** — a "career portfolio" export combining IDP progress +
+  evidence, useful for promotion packets. Could reuse the dashboard's
+  rendering logic.
+- **Multi-manager support** — for people who've had more than one manager
+  over the tracked period; affects the `attendees` field and possibly
+  requires a `manager_history` concept in the ontology.
+- **Encrypted/private mode** — since 1:1 notes can contain sensitive
+  content, a mode that keeps `data/` out of git (via `.gitignore`) while
+  still working with the Skill and dashboard locally.
+- **Multiple dashboard themes / anonymized "shareable" view** — a mode that
+  strips sensitive notes but keeps the IDP progress visual, for sharing in
+  a portfolio.
+- **Persisted calendar data (`data/calendar/`)** — currently `.ics` files
+  are generated on-demand and not saved. A future version could persist
+  generated events to `data/calendar/`, which would let the dashboard show
+  "upcoming reminders" and let the Skill proactively mention them during
+  chat (e.g. "you have a 1:1 reminder for next Tuesday"). Needs design: how
+  to avoid the persisted file going stale vs. the live source-of-truth
+  entities (a 1:1 date changing after the reminder was generated), and
+  whether the dashboard treats these as read-only annotations or editable
+  data.
+- **Bilingual docs / dashboard i18n** — README available in English (primary)
+  and Portuguese (`README.pt-BR.md`), and dashboard strings pulled from
+  `i18n/en.json` / `i18n/pt-br.json` with a language-toggle. See
+  conversation notes for the recommended pattern (no code/logic duplication,
+  just parallel string tables).
+- **AI-generated narrative Overview summary** — the current Overview tab
+  computes its "Recent Progress" section directly from existing data (most
+  recent evidence entries, sorted by date) with no AI call involved, keeping
+  the dashboard's no-backend/static-only architecture intact. A richer
+  version — an actual written narrative summary ("Here's how your last
+  quarter went...") — would need to be generated by `SKILL.md` in a separate
+  session (e.g. "summarize my progress this quarter") and written to a file
+  the dashboard then reads, rather than the dashboard calling an AI model
+  itself at page-load. Keeping this distinction explicit: the dashboard
+  should stay a dumb renderer of precomputed data, not a place that needs
+  API keys or network calls to an LLM.
+
+---
+
+## How to propose a new idea
+
+Add a new `## 💡 <Idea Name>` section above, following the same shape: the
+idea, any architectural notes/trade-offs, and open questions. Keep it brief —
+detailed design belongs in an issue or `docs/`, not here.
