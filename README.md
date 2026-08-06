@@ -68,7 +68,14 @@ vocabulary used throughout this project.
 2. **To see the dashboard with demo content:** copy the contents of
    `examples/data/` into `data/`:
    - macOS/Linux: `cp -r examples/data/* data/`
-   - Windows (PowerShell): `Get-ChildItem -Path examples\data | Copy-Item -Destination data -Recurse -Force`
+   - **Windows (PowerShell):**
+     ```powershell
+     New-Item -ItemType Directory -Path data -Force | Out-Null
+     Copy-Item -Path examples\data\1on1 -Destination data\1on1 -Recurse
+     Copy-Item -Path examples\data\idp -Destination data\idp -Recurse
+     Copy-Item -Path examples\data\evaluation -Destination data\evaluation -Recurse
+     Copy-Item -Path examples\data\profile.json -Destination data\profile.json
+     ```
 
    **For real use:** skip that and just start creating
    files directly under `data/` — talk to the Skill (via an AI assistant
