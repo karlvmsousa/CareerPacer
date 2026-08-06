@@ -9,6 +9,10 @@
 // or data/idp/, then reload the dashboard (or click "Refresh data").
 //
 // Usage: node scripts/generate-manifest.js
+//
+// NOTE: scripts/generate_manifest.py is a dependency-free Python mirror
+// of this script (no Node required). If you change the logic here,
+// update that file too so both stay byte-for-byte equivalent.
 
 const fs = require('fs');
 const path = require('path');

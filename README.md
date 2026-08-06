@@ -76,8 +76,9 @@ vocabulary used throughout this project.
    files structured entries under `data/1on1/` and `data/idp/`. Either
    way, `data/` stays private and untracked.
 3. After adding or editing any files under `data/1on1/` or `data/idp/`,
-   run `node scripts/generate-manifest.js` to regenerate
-   `data/index.json` (the manifest the dashboard fetches).
+   regenerate `data/index.json` (the manifest the dashboard fetches):
+   - Node: `node scripts/generate-manifest.js`
+   - Python (no Node required): `python scripts/generate_manifest.py`
 4. From the repo root, start a local static server — e.g. `npx serve`,
    or `python -m http.server 8000 --bind 127.0.0.1` as a no-Node
    fallback — and open the dashboard through the URL it prints. Don't
