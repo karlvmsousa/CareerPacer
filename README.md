@@ -52,14 +52,14 @@ careerpacer/
 ├── dashboard/          # Static HTML/JS dashboard
 └── docs/
     ├── terminology.md  # Glossary of domain + ontology terms
-    ├── style-guide.md  # Voice/tone/format conventions for entry prose
-    └── ontology.md     # Entity/relationship/business-rule documentation
+    └── style-guide.md  # Voice/tone/format conventions for entry prose
 ```
 
 The core entities are `OneOnOne`, `PerformanceEval`, and `IDPAction`. See
-[`docs/ontology.md`](./docs/ontology.md) *(coming
-soon)* for the full model, and [`docs/terminology.md`](./docs/terminology.md)
-for definitions of the vocabulary used throughout this project.
+`schema/*.json` for structure, [`SKILL.md`](./SKILL.md) for the
+relationships and business rules that link them, and
+[`docs/terminology.md`](./docs/terminology.md) for definitions of the
+vocabulary used throughout this project.
 
 ## How to use it
 

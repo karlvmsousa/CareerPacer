@@ -17,7 +17,7 @@ repo has them.
 - [x] Build `dashboard/index.html` — IDP kanban board (not started/in progress/done/blocked)
 - [x] Add sample/seed data so the dashboard is demoable out of the box
 - [x] Add LICENSE (MIT) — do this **before** any company involvement
-- [ ] Trim README to reflect actual MVP scope (remove/flag features not yet built)
+- [x] Trim README to reflect actual MVP scope (remove/flag features not yet built)
 
 ### 🚀 Post-MVP (fast follow)
 - [ ] Write JSON Schema for `PerformanceEval` entity
@@ -31,7 +31,6 @@ repo has them.
 ## 🔄 Ongoing
 
 - [ ] `docs/terminology.md` — glossary of career/performance-review terms + ontology terms (living document, will grow as we refine the model)
-- [ ] `docs/ontology.md` — entity/relationship/business-rule documentation
 
 ## ✅ Done
 
@@ -40,3 +39,8 @@ repo has them.
 - [x] Drafted initial data model (OneOnOne, PerformanceEval, IDPAction, NextMeetingDraft)
 - [x] Decided v1 scope: full stack (1:1s + Evals + IDP + dashboard), later re-scoped into MVP + Post-MVP phases
 - [x] Chose project name: CareerPacer (backronym: Progress-Aware Conversational Evaluation Routine)
+- [x] Added .gitignore; decided real personal data (data/) stays private and is never committed — examples/data/ holds the committed John/PulseFit demo dataset instead
+- [x] Restructured sample data into examples/data/; converted all entries to first-person voice per docs/style-guide.md
+- [x] Wrote docs/style-guide.md (voice/tone/format conventions), referenced by SKILL.md alongside the JSON schemas
+- [x] Rebuilt dashboard data loading: switched from a browser folder picker to a local-server + fetch model, with scripts/generate-manifest.js generating data/index.json
+- [x] Redesigned dashboard Overview tab: profile personalization, unified layout width, "Next 1:1 Prep" and "Recent Progress" sections
