@@ -66,8 +66,11 @@ vocabulary used throughout this project.
 1. Clone the repo. `data/` starts empty — it's gitignored, so your real
    career data never gets committed.
 2. **To see the dashboard with demo content:** copy the contents of
-   `examples/data/` into `data/` (e.g. `cp -r examples/data/* data/` on
-   macOS/Linux). **For real use:** skip that and just start creating
+   `examples/data/` into `data/`:
+   - macOS/Linux: `cp -r examples/data/* data/`
+   - Windows (PowerShell): `Get-ChildItem -Path examples\data | Copy-Item -Destination data -Recurse -Force`
+
+   **For real use:** skip that and just start creating
    files directly under `data/` — talk to the Skill (via an AI assistant
    that supports Agent Skills) to log a 1:1 or prep for one, and it
    files structured entries under `data/1on1/` and `data/idp/`. Either
