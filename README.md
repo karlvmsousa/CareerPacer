@@ -43,11 +43,11 @@ careerpacer/
 │   ├── evaluation/
 │   ├── idp/
 │   ├── profile.json    # Your name/role/company/manager (lightweight, static)
-│   └── index.json      # Generated manifest the dashboard fetches (see scripts/)
+│   └── index.json      # Generated index the dashboard fetches (see scripts/)
 ├── examples/
 │   └── data/           # Sample John/PulseFit persona (copy into data/ for a demo)
 ├── schema/             # JSON Schema definitions — single source of truth
-├── scripts/            # generate-manifest.js — regenerates data/index.json
+├── scripts/            # generate_index.py — regenerates data/index.json
 ├── SKILL.md            # The Agent Skill definition
 ├── dashboard/          # Static HTML/JS dashboard
 └── docs/
@@ -60,6 +60,17 @@ The core entities are `OneOnOne`, `PerformanceEval`, and `IDPAction`. See
 relationships and business rules that link them, and
 [`docs/terminology.md`](./docs/terminology.md) for definitions of the
 vocabulary used throughout this project.
+
+## Prerequisites
+
+- Python 3.x (check with `python --version` or `python3 --version`)
+- A modern browser (Chrome, Firefox, Edge, or Safari)
+
+That's it — no npm, no pip installs, no other tooling. The dashboard is
+plain HTML/CSS/JS, running entirely in your browser's built-in
+JavaScript engine. Its one JS library, js-yaml, loads automatically from
+a CDN when the page opens. The index generation script uses only
+Python's standard library.
 
 ## How to use it
 
@@ -83,16 +94,20 @@ vocabulary used throughout this project.
    files structured entries under `data/1on1/` and `data/idp/`. Either
    way, `data/` stays private and untracked.
 3. After adding or editing any files under `data/1on1/` or `data/idp/`,
-   regenerate `data/index.json` (the manifest the dashboard fetches):
-   - Node: `node scripts/generate-manifest.js`
-   - Python (no Node required): `python scripts/generate_manifest.py`
-4. From the repo root, start a local static server — e.g. `npx serve`,
-   or `python -m http.server 8000 --bind 127.0.0.1` as a no-Node
-   fallback — and open the dashboard through the URL it prints. Don't
+   regenerate `data/index.json` (the index the dashboard fetches) by
+   running the index generation script:
+
+       python scripts/generate_index.py
+
+4. From the repo root, start a local static server:
+
+       python -m http.server 8000 --bind 127.0.0.1
+
+   Then open the dashboard at `http://127.0.0.1:8000/dashboard/`. Don't
    open `dashboard/index.html` directly by double-clicking it: dashboard
    data loads via `fetch()`, which requires http(s) and won't work over
    a `file://` URL. Click "Refresh data" in the dashboard header any
-   time you regenerate the manifest or edit data without reloading the
+   time you regenerate the index or edit data without reloading the
    page.
 
 ## Documentation

@@ -502,8 +502,9 @@
 
   refreshButton.addEventListener('click', loadData);
 
-  // Auto-load on page load (requires being served over http(s), e.g. `npx serve`
-  // from the repo root — fetch() of local files is blocked under file://).
+  // Auto-load on page load (requires being served over http(s), e.g.
+  // `python -m http.server` from the repo root — fetch() of local files
+  // is blocked under file://).
   loadData();
 
   // --- Tab switching ---
@@ -657,7 +658,7 @@
     const listEl = document.getElementById('oneonones-list');
 
     if (data.oneOnOnes.length === 0) {
-      listEl.innerHTML = '<p class="empty-state">No 1:1s found. Make sure data/index.json is up to date (run scripts/generate-manifest.js after adding/editing files) and click "Refresh data" above.</p>';
+      listEl.innerHTML = '<p class="empty-state">No 1:1s found. Make sure data/index.json is up to date (run scripts/generate_index.py after adding/editing files) and click "Refresh data" above.</p>';
       return;
     }
 

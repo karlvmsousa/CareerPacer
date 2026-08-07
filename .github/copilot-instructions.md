@@ -52,7 +52,7 @@ unless explicitly asked; they are intentionally deferred.
   documented exceptions for established domain acronyms (`IDP`, `OKR`,
   `PIP`, `1:1`) — see `docs/terminology.md`'s "Naming conventions"
   section.
-- The dashboard must be served via a local static server (`npx serve`, or
+- The dashboard must be served via a local static server (e.g.
   `python -m http.server` bound to `127.0.0.1`) — opening `index.html`
   directly via `file://` won't work, since data loads via `fetch()`.
 - This started as a personal open-source project and is aimed at being

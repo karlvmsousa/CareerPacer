@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-# scripts/generate_manifest.py
+# scripts/generate_index.py
 #
 # Scans data/1on1/ and data/idp/ for Markdown files and writes
-# data/index.json, a flat manifest of relative paths (relative to data/)
+# data/index.json, a flat index of relative paths (relative to data/)
 # that dashboard/parser.js fetches at page load.
 #
 # Re-run this any time you add, remove, or rename files under data/1on1/
 # or data/idp/, then reload the dashboard (or click "Refresh data").
 #
-# Usage: python scripts/generate_manifest.py
-#
-# NOTE: scripts/generate-manifest.js is the Node equivalent of this
-# script. If you change the logic here, update that file too so both
-# stay byte-for-byte equivalent.
+# Usage: python scripts/generate_index.py
 
 import json
 from pathlib import Path
@@ -36,9 +32,9 @@ def list_markdown_files(folder):
 
 
 files = [f for folder in SCAN_FOLDERS for f in list_markdown_files(folder)]
-manifest = {'files': files}
+index_data = {'files': files}
 
 with open(DATA_DIR / 'index.json', 'w', encoding='utf-8', newline='\n') as f:
-    f.write(json.dumps(manifest, indent=2) + '\n')
+    f.write(json.dumps(index_data, indent=2) + '\n')
 
 print(f'Wrote data/index.json with {len(files)} file(s).')

@@ -5,10 +5,6 @@ Thumbs.db
 # Editor
 .vscode/
 
-# Node
-node_modules/
-npm-debug.log
-
 # Python
 __pycache__/
 *.pyc
