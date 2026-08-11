@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://careerpacer/schema/performance-eval.schema.json",
+  "title": "PerformanceEval",
+  "$comment": "Describes the YAML frontmatter of a data/evaluation/*.md file. The Markdown body below the frontmatter holds freeform review notes. Kept lightweight for MVP.",
+  "type": "object",
+  "required": ["id", "period", "type", "eval_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this evaluation, e.g. \"eval-2026-annual\"."
+    },
+    "period": {
+      "type": "string",
+      "description": "The time period this evaluation covers, e.g. \"2026\", \"2026-H1\", \"2026-Q3\"."
+    },
+    "type": {
+      "type": "string",
+      "description": "The format or type of the evaluation, e.g. \"annual_360\", \"mid_year_review\", \"probation_review\"."
+    },
+    "eval_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the evaluation was delivered or finalized, YYYY-MM-DD."
+    },
+    "attendees": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Names/handles of people present during the evaluation delivery (e.g. employee, manager)."
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Key positive feedback points or areas where expectations were exceeded."
+    },
+    "growth_areas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Areas for improvement identified in the evaluation. Often references IDPAction IDs (e.g. \"idp-2026-001\") if the growth area is translated into a formal goal."
+    }
+  },
+  "additionalProperties": true
+}
