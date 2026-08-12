@@ -13,6 +13,7 @@
     "date": {
       "type": "string",
       "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "Date the 1:1 took place (or is scheduled to take place), YYYY-MM-DD."
     },
     "status": {
