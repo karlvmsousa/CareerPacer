@@ -37,11 +37,13 @@
         "start_date": {
           "type": "string",
           "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
           "description": "When work on this action began, YYYY-MM-DD."
         },
         "target_date": {
           "type": "string",
           "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
           "description": "Goal completion date, YYYY-MM-DD. May fall in a later year than the file itself -- the action still stays in its original (creation-year) file. Business rule (enforced later): must be on/after start_date."
         },
         "linked_evidence": {

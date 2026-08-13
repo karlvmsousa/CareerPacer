@@ -21,6 +21,7 @@
     "eval_date": {
       "type": "string",
       "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "The date the evaluation was delivered or finalized, YYYY-MM-DD."
     },
     "attendees": {
