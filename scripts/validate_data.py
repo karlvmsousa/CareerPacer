@@ -1,3 +1,20 @@
+"""
+Validates CareerPacer Markdown entries against their JSON Schemas.
+
+Flow: extract YAML frontmatter -> validate against schema/*.json ->
+check referential integrity (linked_actions, growth_areas against data/idp/)
+-> report PASS/FAIL per file.
+
+Exit codes:
+    0: All files passed validation.
+    1: One or more files failed data validation (schema or integrity error).
+    2: Usage/argument error (e.g., target file does not exist).
+
+Usage:
+    python scripts/validate_data.py              # scan entire data/ directory
+    python scripts/validate_data.py <file.md>     # validate a single file
+"""
+
 import argparse
 import json
 import sys
@@ -66,7 +83,7 @@ def validate_file(filepath: Path, valid_idps: set) -> list:
     except ValidationError as e:
         errors.append(f"Schema Error: {e.message} (Path: {'/'.join(map(str, e.path))})")
 
-    # Integridade Referencial
+    # Referential Integrity
     if parent_folder == "1on1":
         for action_id in data.get("linked_actions", []):
             if action_id not in valid_idps:
@@ -92,7 +109,7 @@ def main():
         file_path = Path(args.file).resolve()
         if not file_path.exists():
             print(f"Error: File '{file_path}' does not exist.")
-            sys.exit(1)
+            sys.exit(2)
         files_to_check.append(file_path)
     else:
         for folder in SCHEMA_MAP.keys():
