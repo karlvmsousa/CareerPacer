@@ -11,6 +11,7 @@ Exit codes:
     2: Usage/argument error (e.g., target file does not exist).
 
 Usage:
+    pip install -r requirements.txt               # install dependencies
     python scripts/validate_data.py              # scan entire data/ directory
     python scripts/validate_data.py <file.md>     # validate a single file
 """
