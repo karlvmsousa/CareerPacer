@@ -30,9 +30,10 @@ create or edit those.
 
 This skill has two sources of truth: the two JSON schemas define
 *structure* (fields, types), and `docs/style-guide.md` defines *how the
-prose within those fields should read* (voice, tone, format). This
-skill produces lightweight, informal output consistent with both — not
-strictly schema-validated. `examples/data/1on1/2026-06-15.md` +
+prose within those fields should read* (voice, tone, format). The body
+prose is freeform and informal, not schema-validated — but the
+frontmatter itself is self-checked against the schemas before the task
+is considered done (see Step 6). `examples/data/1on1/2026-06-15.md` +
 `examples/data/idp/2026.md` are an optional illustrative reference for
 shape/format only — `schema/*.json` and `docs/style-guide.md` remain
 the sole sources of truth; don't infer structure or voice from the
@@ -143,6 +144,22 @@ happened and the file is flipped to `logged`.
   `OneOnOne` body holds the complete narrative; `IDPAction.linked_evidence`
   entries should be terse, one-line, date-prefixed progress notes, not a
   copy-paste of the 1:1 body.
+
+## Step 6: Validate before finishing
+
+After writing or updating a `data/1on1/*.md` or `data/idp/<year>.md` file
+(Steps 2–5), self-check your own output by running:
+
+```
+python scripts/validate_data.py <path/to/file.md>
+```
+
+Run it once per file you touched in this turn. If it reports a `FAIL`
+(schema error or referential-integrity error, e.g. a `linked_actions` id
+that doesn't exist), fix the file and re-run the script — don't consider
+the task done until every file you touched passes. If the script itself
+errors out because `jsonschema`/`pyyaml` aren't installed, tell the user
+to run `pip install -r requirements.txt` rather than skipping the check.
 
 ## Conventions (from the schemas — keep output consistent with these)
 
