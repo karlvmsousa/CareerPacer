@@ -157,9 +157,12 @@ python scripts/validate_data.py <path/to/file.md>
 Run it once per file you touched in this turn. If it reports a `FAIL`
 (schema error or referential-integrity error, e.g. a `linked_actions` id
 that doesn't exist), fix the file and re-run the script — don't consider
-the task done until every file you touched passes. If the script itself
-errors out because `jsonschema`/`pyyaml` aren't installed, tell the user
-to run `pip install -r requirements.txt` rather than skipping the check.
+the task done until every file you touched passes. If it reports
+`Error: File '<path>' does not exist.` (exit code 2), that's not a data
+problem — double-check the path you're passing rather than editing the
+file. If the script itself errors out because `jsonschema`/`pyyaml`
+aren't installed, tell the user to run `pip install -r requirements.txt`
+rather than skipping the check.
 
 ## Conventions (from the schemas — keep output consistent with these)
 
