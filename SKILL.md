@@ -158,8 +158,10 @@ If the script itself errors out because `jsonschema`/`pyyaml` aren't installed, 
 
 - Don't create or edit `data/evaluation/` (performance evaluations) —
   deferred, out of scope.
-- Don't hard-validate against the JSON Schemas or reject input that
-  doesn't perfectly fit — this is intentionally informal for MVP. Treat
-  the schemas as a structural guide.
+- Don't hard-validate the body prose against the schemas or reject
+  informal wording — that stays intentionally loose for MVP.
+  Frontmatter is a different story: it's hard-validated via Step 6
+  before a task is considered done, so don't skip that check or treat
+  it as optional.
 - Don't silently invent dates, statuses, or evidence the notes don't
   support — ask the user instead.
