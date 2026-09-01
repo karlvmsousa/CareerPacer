@@ -7,7 +7,7 @@
 //
 // No build step: this is a plain script, meant to be loaded with a <script>
 // tag alongside js-yaml from a CDN, e.g.:
-//   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+//   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.3.2/dist/js-yaml.min.js" integrity="sha384-uwLg6oO8ZhFG2SuQfgmkMtosjtrFYlkPspa/cXS+b3D8GLRTHMDl/mTwqImdlKQO" crossorigin="anonymous"></script>
 //   <script src="parser.js"></script>
 //
 // Data is loaded by fetching data/index.json (a flat index of relative
