@@ -1,5 +1,7 @@
 # CareerPacer
 
+[![Validate schema and examples](https://github.com/karlvmsousa/careerpacer/actions/workflows/validate.yml/badge.svg)](https://github.com/karlvmsousa/careerpacer/actions/workflows/validate.yml)
+
 > ⚠️ **Status: MVP functional, pre-launch.** Core architecture, schema,
 > and dashboard are in place — see [`backlog.md`](./backlog.md) for
 > remaining items before the first public release.
@@ -116,13 +118,16 @@ Python's standard library.
 - [`docs/style-guide.md`](./docs/style-guide.md) — voice/tone/format conventions for entry prose
 - [`docs/future-ideas.md`](./docs/future-ideas.md) — proposed enhancements out of core scope
 
+## Continuous Integration
+
+The badge above reflects CI, which runs `scripts/validate_data.py` against
+`schema/*.json` and the fictional `examples/data/` persona on every push
+and pull request. It never touches `data/` — that's gitignored and holds
+your real, private career data, which CI never sees.
+
 ## Contributing
 
-Contribution guidelines will be added once the core schema stabilizes — see
-`backlog.md` for current priorities, and
-[`docs/future-ideas.md`](./docs/future-ideas.md) for proposed enhancements
-(like calendar integration) that are open for discussion and community
-implementation. Issues and forks are welcome in the meantime.
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 

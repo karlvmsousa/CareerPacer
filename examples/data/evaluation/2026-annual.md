@@ -1,6 +1,6 @@
 ---
 id: eval-2026-annual
-period: 2026
+period: "2026"
 type: annual_360
 eval_date: 2026-06-15
 attendees:

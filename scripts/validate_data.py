@@ -11,9 +11,11 @@ Exit codes:
     2: Usage/argument error (e.g., target file does not exist).
 
 Usage:
-    pip install -r requirements.txt               # install dependencies
-    python scripts/validate_data.py              # scan entire data/ directory
-    python scripts/validate_data.py <file.md>     # validate a single file
+    pip install -r requirements.txt                 # install dependencies
+    python scripts/validate_data.py                # scan data/ (default)
+    python scripts/validate_data.py <file.md>       # validate a single file
+    python scripts/validate_data.py <data-dir>      # scan an arbitrary data
+                                                     # directory, e.g. examples/data/
 """
 
 import argparse
@@ -50,10 +52,10 @@ def load_schema(schema_name: str) -> dict:
     schema_path = SCHEMA_DIR / schema_name
     return json.loads(schema_path.read_text(encoding="utf-8"))
 
-def build_valid_idp_set() -> set:
-    """Builds a set of all valid IDP action IDs currently on disk."""
+def build_valid_idp_set(data_root: Path) -> set:
+    """Builds a set of all valid IDP action IDs under <data_root>/idp/."""
     valid_ids = set()
-    idp_dir = DATA_DIR / "idp"
+    idp_dir = data_root / "idp"
     if idp_dir.exists():
         for file in idp_dir.glob("*.md"):
             data = load_frontmatter(file)
@@ -62,7 +64,16 @@ def build_valid_idp_set() -> set:
                     valid_ids.add(action["id"])
     return valid_ids
 
-def validate_file(filepath: Path, valid_idps: set) -> list:
+def gather_files(data_root: Path) -> list:
+    """Lists Markdown files under data_root's known entity folders (1on1/, idp/, evaluation/)."""
+    files = []
+    for folder in SCHEMA_MAP.keys():
+        folder_path = data_root / folder
+        if folder_path.exists():
+            files.extend(sorted(folder_path.glob("*.md")))
+    return files
+
+def validate_file(filepath: Path, valid_idps: set, idp_ref: str) -> list:
     """Validates a file's frontmatter against its schema and checks referential integrity."""
     errors = []
     parent_folder = filepath.parent.name
@@ -88,41 +99,56 @@ def validate_file(filepath: Path, valid_idps: set) -> list:
     if parent_folder == "1on1":
         for action_id in data.get("linked_actions", []):
             if action_id not in valid_idps:
-                errors.append(f"Integrity Error: linked_action '{action_id}' not found in any data/idp/ file.")
+                errors.append(f"Integrity Error: linked_action '{action_id}' not found in any {idp_ref} file.")
                 
     elif parent_folder == "evaluation":
         for action_id in data.get("growth_areas", []):
             if action_id not in valid_idps:
-                errors.append(f"Integrity Error: growth_area '{action_id}' not found in any data/idp/ file.")
+                errors.append(f"Integrity Error: growth_area '{action_id}' not found in any {idp_ref} file.")
 
     return errors
 
 def main():
-    """CLI entrypoint. Runs validation on a target file or the entire data directory."""
+    """CLI entrypoint. Validates a single file, an arbitrary data directory, or defaults to data/."""
     parser = argparse.ArgumentParser(description="Validate CareerPacer data files.")
-    parser.add_argument("file", nargs="?", help="Optional specific file to validate.")
+    parser.add_argument(
+        "target",
+        nargs="?",
+        help=(
+            "Optional file or data directory to validate. Defaults to data/. "
+            "A directory should contain 1on1/, idp/, and/or evaluation/ "
+            "subfolders (e.g. examples/data/)."
+        ),
+    )
     args = parser.parse_args()
 
-    valid_idps = build_valid_idp_set()
-    
-    files_to_check = []
-    if args.file:
-        file_path = Path(args.file).resolve()
-        if not file_path.exists():
-            print(f"Error: File '{file_path}' does not exist.")
+    if args.target:
+        target_path = Path(args.target).resolve()
+        if not target_path.exists():
+            print(f"Error: Path '{target_path}' does not exist.")
             sys.exit(2)
-        files_to_check.append(file_path)
     else:
-        for folder in SCHEMA_MAP.keys():
-            folder_path = DATA_DIR / folder
-            if folder_path.exists():
-                files_to_check.extend(folder_path.glob("*.md"))
+        target_path = DATA_DIR
+
+    if target_path.is_dir():
+        data_root = target_path
+        files_to_check = gather_files(data_root)
+    else:
+        data_root = target_path.parent.parent
+        files_to_check = [target_path]
+
+    try:
+        idp_ref = f"{data_root.relative_to(BASE_DIR)}/idp"
+    except ValueError:
+        idp_ref = f"{data_root}/idp"
+
+    valid_idps = build_valid_idp_set(data_root)
 
     has_errors = False
 
     for filepath in files_to_check:
         relative_path = filepath.relative_to(BASE_DIR)
-        errors = validate_file(filepath, valid_idps)
+        errors = validate_file(filepath, valid_idps, idp_ref)
         
         if errors:
             has_errors = True
