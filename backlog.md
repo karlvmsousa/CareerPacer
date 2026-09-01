@@ -1,46 +1,66 @@
 # Backlog
 
-Simple three-column backlog for tracking project progress. Move items between
-sections as work advances. Keep entries short; link to issues/PRs once the
-repo has them.
+Simple backlog for tracking project progress, grouped by theme.
+Move items between Done/Planned as work advances.
+Keep entries short; link to issues/PRs once the repo has them.
 
 ---
 
-## 📋 Todo
+## 🧩 Core data model & schema
 
-### 🎯 MVP — first launch
-- [x] Scaffold repo structure (folders: `data/`, `schema/`, `dashboard/`, `docs/`)
-- [x] Write minimal schema for `OneOnOne` and `IDPAction` only (informal JSON Schema, just enough to structure the Skill's output and parse in the dashboard — formal validation/linting comes later)
-- [x] Write `SKILL.md` v1 — handles two things only: (1) turn freeform 1:1 notes into a structured `data/1on1s/*.md` file, (2) create/update `IDPAction` entries and link them to 1:1s
-- [x] Build `dashboard/parser.js` (fetch + parse frontmatter from `data/`)
-- [x] Build `dashboard/index.html` — 1:1 timeline view
-- [x] Build `dashboard/index.html` — IDP kanban board (not started/in progress/done/blocked)
-- [x] Add sample/seed data so the dashboard is demoable out of the box
-- [x] Add LICENSE (MIT) — do this **before** any company involvement
-- [x] Trim README to reflect actual MVP scope (remove/flag features not yet built)
+### Done
+- Minimal JSON Schema for `OneOnOne` and `IDPAction`
+- JSON Schema for `PerformanceEval`
+- Drafted initial data model (`OneOnOne`, `PerformanceEval`, `IDPAction`, `NextMeetingDraft`)
 
-### 🚀 Post-MVP (fast follow)
-- [ ] Write JSON Schema for `PerformanceEval` entity
-- [ ] `dashboard/index.html` — performance eval history view
-- [ ] Design "Intake" — first-run onboarding flow (1:1 cadence, whether to track Evals/IDP, manager's name)
-- [ ] Add `.ics` generation to the Skill (on-demand, no persistence)
-- [ ] Formal JSON Schema validation script + referential-integrity check (linked_actions must exist in idp/actions.md) — good scope for the data-engineer collaborator
-- [ ] Write CONTRIBUTING.md
-- [ ] Dashboard i18n (English/Portuguese string tables, see docs/future-ideas.md)
+### Planned
+- (none currently — data model is stable pending the Post-MVP feature work tracked below)
 
-## 🔄 Ongoing
+## 🤖 Skill / agent behavior
 
-- [ ] `docs/terminology.md` — glossary of career/performance-review terms + ontology terms (living document, will grow as we refine the model)
+### Done
+- SKILL.md v1: freeform 1:1 notes → structured `data/1on1/*.md`; create/update `IDPAction` entries linked to 1:1s, with Boundaries clarifying body prose stays informal while frontmatter is hard-validated
+- Step 6 self-validation: Skill runs `validate_data.py` on its own output before considering a task done
 
-## ✅ Done
+### Planned
+- Design "Intake" — first-run onboarding flow (1:1 cadence, whether to track Evals/IDP, manager's name)
+- Add `.ics` generation to the Skill (on-demand, no persistence)
 
-- [x] Defined initial pain point and solution concept
-- [x] Chose architecture: Markdown + YAML frontmatter, Claude Skill, static HTML dashboard
-- [x] Drafted initial data model (OneOnOne, PerformanceEval, IDPAction, NextMeetingDraft)
-- [x] Decided v1 scope: full stack (1:1s + Evals + IDP + dashboard), later re-scoped into MVP + Post-MVP phases
-- [x] Chose project name: CareerPacer (backronym: Progress-Aware Conversational Evaluation Routine)
-- [x] Added .gitignore; decided real personal data (data/) stays private and is never committed — examples/data/ holds the committed John/PulseFit demo dataset instead
-- [x] Restructured sample data into examples/data/; converted all entries to first-person voice per docs/style-guide.md
-- [x] Wrote docs/style-guide.md (voice/tone/format conventions), referenced by SKILL.md alongside the JSON schemas
-- [x] Rebuilt dashboard data loading: switched from a browser folder picker to a local-server + fetch model, with scripts/generate-manifest.js generating data/index.json
-- [x] Redesigned dashboard Overview tab: profile personalization, unified layout width, "Next 1:1 Prep" and "Recent Progress" sections
+## 📊 Dashboard
+
+### Done
+- `dashboard/parser.js` (fetch + parse frontmatter from `data/`)
+- 1:1 timeline view
+- IDP kanban board (not started/in progress/done/blocked)
+- Sample/seed data so the dashboard is demoable out of the box
+- Rebuilt data loading: local-server + fetch model (dropped folder-picker), `generate_index.py` → `data/index.json`
+- Redesigned Overview tab: profile personalization, unified layout width, "Next 1:1 Prep"/"Recent Progress"
+- Pinned `js-yaml` CDN script to an exact version with an SRI hash (supply-chain hardening)
+
+### Planned
+- Performance eval history view
+- i18n (English/Portuguese string tables, see `docs/future-ideas.md`)
+
+## 🛠️ Tooling & CI
+
+### Done
+- Repo scaffolding (`data/`, `schema/`, `dashboard/`, `docs/`)
+- `.gitignore`; real personal data stays private, `examples/data/` holds the committed demo persona
+- Formal JSON Schema validation script + referential-integrity check (`scripts/validate_data.py`, `requirements.txt`)
+- GitHub Actions CI: runs the validation script against schema/examples on every push and PR
+
+### Planned
+- (none currently)
+
+## 📚 Docs & contribution
+
+### Done
+- LICENSE (MIT)
+- Trimmed README to actual MVP scope
+- `docs/style-guide.md` (voice/tone/format conventions)
+- Converted example data to first-person voice per style-guide
+- CONTRIBUTING.md
+- Fixed stale README/SKILL.md claims (Prerequisites pip-install gap, Step 6 vs. Boundaries contradiction), reformatted prose to one-sentence-per-line
+
+### Planned / Ongoing
+- `docs/terminology.md` — glossary of domain + ontology terms (living document, grows as the model is refined)
