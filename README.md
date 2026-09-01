@@ -2,25 +2,17 @@
 
 [![Validate schema and examples](https://github.com/karlvmsousa/careerpacer/actions/workflows/validate.yml/badge.svg)](https://github.com/karlvmsousa/careerpacer/actions/workflows/validate.yml)
 
-> ⚠️ **Status: MVP functional, pre-launch.** Core architecture, schema,
-> and dashboard are in place — see [`backlog.md`](./backlog.md) for
-> remaining items before the first public release.
+> ⚠️ **Status: MVP functional, pre-launch.**
+> Core architecture, schema, and dashboard are in place — see [`backlog.md`](./backlog.md) for remaining items before the first public release.
 
-**CareerPacer** is an open-source, AI-assisted system for tracking your
-career: 1:1 meeting discussions, performance reviews, and your Individual
-Development Plan (IDP) — all in one place, all in plain text, all versioned
-in git.
+**CareerPacer** is an open-source, AI-assisted system for tracking your career: 1:1 meeting discussions, performance reviews, and your Individual Development Plan (IDP) — all in one place, all in plain text, all versioned in git.
 
-<sub>Yes, it's also a backronym: **P**rogress-**A**ware **C**onversational
-**E**valuation **R**outine.</sub>
+<sub>Yes, it's also a backronym: **P**rogress-**A**ware **C**onversational **E**valuation **R**outine.</sub>
 
 ## The problem
 
-1:1 conversations and performance feedback contain real signal about your
-strengths, growth areas, and agreed-upon action plans — but that signal
-usually gets lost across scattered notebooks, docs, and memory. The result:
-you *know* what you should be working on, but rarely translate it into daily
-action, and you struggle to show others concrete evidence of your growth.
+1:1 conversations and performance feedback contain real signal about your strengths, growth areas, and agreed-upon action plans — but that signal usually gets lost across scattered notebooks, docs, and memory.
+The result: you *know* what you should be working on, but rarely translate it into daily action, and you struggle to show others concrete evidence of your growth.
 
 ## The approach
 
@@ -58,28 +50,18 @@ careerpacer/
     └── style-guide.md  # Voice/tone/format conventions for entry prose
 ```
 
-The core entities are `OneOnOne`, `PerformanceEval`, and `IDPAction`. See
-`schema/*.json` for structure, [`SKILL.md`](./SKILL.md) for the
-relationships and business rules that link them, and
-[`docs/terminology.md`](./docs/terminology.md) for definitions of the
-vocabulary used throughout this project.
+The core entities are `OneOnOne`, `PerformanceEval`, and `IDPAction`.
+See `schema/*.json` for structure, [`SKILL.md`](./SKILL.md) for the relationships and business rules that link them, and [`docs/terminology.md`](./docs/terminology.md) for definitions of the vocabulary used throughout this project.
 
 ## Prerequisites
 
 - Python 3.x (check with `python --version` or `python3 --version`)
 - A modern browser (Chrome, Firefox, Edge, or Safari)
 
-No npm, and the dashboard itself needs no installs — it's plain
-HTML/CSS/JS running entirely in your browser's built-in JavaScript
-engine, and its one JS library, js-yaml, loads automatically from a CDN
-when the page opens. The index generation script (`generate_index.py`)
-uses only Python's standard library too.
+No npm, and the dashboard itself needs no installs — it's plain HTML/CSS/JS running entirely in your browser's built-in JavaScript engine, and its one JS library, js-yaml, loads automatically from a CDN when the page opens.
+The index generation script (`generate_index.py`) uses only Python's standard library too.
 
-Before using the Skill to log or prep a 1:1, install its validation
-dependencies: the Skill self-validates every 1:1/IDP entry it writes
-(Step 6 of [`SKILL.md`](./SKILL.md)) — this isn't optional, it runs on
-every entry — and that step, along with manual runs of
-`scripts/validate_data.py`, needs `jsonschema` and `pyyaml`:
+Before using the Skill to log or prep a 1:1, install its validation dependencies: the Skill self-validates every 1:1/IDP entry it writes (Step 6 of [`SKILL.md`](./SKILL.md)) — this isn't optional, it runs on every entry — and that step, along with manual runs of `scripts/validate_data.py`, needs `jsonschema` and `pyyaml`:
 
     pip install -r requirements.txt
 
@@ -132,10 +114,8 @@ every entry — and that step, along with manual runs of
 
 ## Continuous Integration
 
-The badge above reflects CI, which runs `scripts/validate_data.py` against
-`schema/*.json` and the fictional `examples/data/` persona on every push
-and pull request. It never touches `data/` — that's gitignored and holds
-your real, private career data, which CI never sees.
+The badge above reflects CI, which runs `scripts/validate_data.py` against `schema/*.json` and the fictional `examples/data/` persona on every push and pull request.
+It never touches `data/` — that's gitignored and holds your real, private career data, which CI never sees.
 
 ## Contributing
 

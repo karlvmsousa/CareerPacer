@@ -24,28 +24,18 @@ This skill handles exactly two things:
    `data/idp/<year>.md` file (per `schema/idp-action.schema.json`) and
    linking them to the 1:1 that raised or advanced them.
 
-Everything else in CareerPacer — performance evaluations
-(`data/evaluation/`), the dashboard — is out of scope for v1. Don't
-create or edit those.
+Everything else in CareerPacer — performance evaluations (`data/evaluation/`), the dashboard — is out of scope for v1.
+Don't create or edit those.
 
-This skill has two sources of truth: the two JSON schemas define
-*structure* (fields, types), and `docs/style-guide.md` defines *how the
-prose within those fields should read* (voice, tone, format). The body
-prose is freeform and informal, not schema-validated — but the
-frontmatter itself is self-checked against the schemas before the task
-is considered done (see Step 6). `examples/data/1on1/2026-06-15.md` +
-`examples/data/idp/2026.md` are an optional illustrative reference for
-shape/format only — `schema/*.json` and `docs/style-guide.md` remain
-the sole sources of truth; don't infer structure or voice from the
-examples alone.
+This skill has two sources of truth: the two JSON schemas define *structure* (fields, types), and `docs/style-guide.md` defines *how the prose within those fields should read* (voice, tone, format).
+The body prose is freeform and informal, not schema-validated — but the frontmatter itself is self-checked against the schemas before the task is considered done (see Step 6).
+`examples/data/1on1/2026-06-15.md` + `examples/data/idp/2026.md` are an optional illustrative reference for shape/format only — `schema/*.json` and `docs/style-guide.md` remain the sole sources of truth; don't infer structure or voice from the examples alone.
 
 ## Step 1: Read the input
 
-You'll usually be given freeform text — dictated or pasted notes from a
-1:1 that already happened (`status: logged`). You may instead be asked to
-prep talking points for a 1:1 that hasn't happened yet (`status: draft`)
-— in that case, work from whatever context is available (recent 1:1s,
-open IDP actions) instead of live notes. For a `logged` 1:1, identify:
+You'll usually be given freeform text — dictated or pasted notes from a 1:1 that already happened (`status: logged`).
+You may instead be asked to prep talking points for a 1:1 that hasn't happened yet (`status: draft`) — in that case, work from whatever context is available (recent 1:1s, open IDP actions) instead of live notes.
+For a `logged` 1:1, identify:
 - The date of the meeting (ask if not stated or inferable)
 - Who was there (attendees)
 - What was discussed
@@ -80,8 +70,8 @@ open IDP actions) instead of live notes. For a `logged` 1:1, identify:
 
 ## Step 3: Decide what's IDP-worthy
 
-Not every follow-up deserves a persistent `IDPAction`. Use this rule of
-thumb:
+Not every follow-up deserves a persistent `IDPAction`.
+Use this rule of thumb:
 
 - Keep it as a `OneOnOne.follow_ups` entry if it's a one-off task or too
   vague to track with a start/target date (e.g. "share the deployment
@@ -91,16 +81,13 @@ thumb:
   dated evidence (e.g. "ship and monitor a production model",
   "build visibility in leadership meetings").
 
-If it's ambiguous, prefer **not** creating a new `IDPAction` — ask the
-user, or leave it as a `follow_up` and revisit at the next 1:1. Don't
-invent a target date, status, or evidence the notes didn't actually
-support.
+If it's ambiguous, prefer **not** creating a new `IDPAction` — ask the user, or leave it as a `follow_up` and revisit at the next 1:1.
+Don't invent a target date, status, or evidence the notes didn't actually support.
 
 ## Step 4: Create or update IDPAction entries
 
-File: `data/idp/<current_year>.md` (the year the action is first
-created, not necessarily the year it's due — see file header comment in
-`schema/idp-action.schema.json`). If it doesn't exist yet, create it with:
+File: `data/idp/<current_year>.md` (the year the action is first created, not necessarily the year it's due — see file header comment in `schema/idp-action.schema.json`).
+If it doesn't exist yet, create it with:
 
 ```yaml
 ---
@@ -132,9 +119,7 @@ For each IDP-worthy item from Step 3:
   - `linked_evidence`: optional at creation; add an initial entry if the
     notes already describe concrete progress
 
-Only create or update `IDPAction` entries from a `logged` 1:1 — don't
-promote items out of a `draft` prep note until the meeting has actually
-happened and the file is flipped to `logged`.
+Only create or update `IDPAction` entries from a `logged` 1:1 — don't promote items out of a `draft` prep note until the meeting has actually happened and the file is flipped to `logged`.
 
 ## Step 5: Link them together
 
@@ -147,22 +132,16 @@ happened and the file is flipped to `logged`.
 
 ## Step 6: Validate before finishing
 
-After writing or updating a `data/1on1/*.md` or `data/idp/<year>.md` file
-(Steps 2–5), self-check your own output by running:
+After writing or updating a `data/1on1/*.md` or `data/idp/<year>.md` file (Steps 2–5), self-check your own output by running:
 
 ```
 python scripts/validate_data.py <path/to/file.md>
 ```
 
-Run it once per file you touched in this turn. If it reports a `FAIL`
-(schema error or referential-integrity error, e.g. a `linked_actions` id
-that doesn't exist), fix the file and re-run the script — don't consider
-the task done until every file you touched passes. If it reports
-`Error: File '<path>' does not exist.` (exit code 2), that's not a data
-problem — double-check the path you're passing rather than editing the
-file. If the script itself errors out because `jsonschema`/`pyyaml`
-aren't installed, tell the user to run `pip install -r requirements.txt`
-rather than skipping the check.
+Run it once per file you touched in this turn.
+If it reports a `FAIL` (schema error or referential-integrity error, e.g. a `linked_actions` id that doesn't exist), fix the file and re-run the script — don't consider the task done until every file you touched passes.
+If it reports `Error: File '<path>' does not exist.` (exit code 2), that's not a data problem — double-check the path you're passing rather than editing the file.
+If the script itself errors out because `jsonschema`/`pyyaml` aren't installed, tell the user to run `pip install -r requirements.txt` rather than skipping the check.
 
 ## Conventions (from the schemas — keep output consistent with these)
 
