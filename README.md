@@ -49,7 +49,8 @@ careerpacer/
 ├── examples/
 │   └── data/           # Sample John/PulseFit persona (copy into data/ for a demo)
 ├── schema/             # JSON Schema definitions — single source of truth
-├── scripts/            # generate_index.py — regenerates data/index.json
+├── scripts/            # generate_index.py, validate_data.py
+├── requirements.txt    # pip deps for validate_data.py (jsonschema, pyyaml)
 ├── SKILL.md            # The Agent Skill definition
 ├── dashboard/          # Static HTML/JS dashboard
 └── docs/
@@ -68,11 +69,19 @@ vocabulary used throughout this project.
 - Python 3.x (check with `python --version` or `python3 --version`)
 - A modern browser (Chrome, Firefox, Edge, or Safari)
 
-That's it — no npm, no pip installs, no other tooling. The dashboard is
-plain HTML/CSS/JS, running entirely in your browser's built-in
-JavaScript engine. Its one JS library, js-yaml, loads automatically from
-a CDN when the page opens. The index generation script uses only
-Python's standard library.
+No npm, and the dashboard itself needs no installs — it's plain
+HTML/CSS/JS running entirely in your browser's built-in JavaScript
+engine, and its one JS library, js-yaml, loads automatically from a CDN
+when the page opens. The index generation script (`generate_index.py`)
+uses only Python's standard library too.
+
+Before using the Skill to log or prep a 1:1, install its validation
+dependencies: the Skill self-validates every 1:1/IDP entry it writes
+(Step 6 of [`SKILL.md`](./SKILL.md)) — this isn't optional, it runs on
+every entry — and that step, along with manual runs of
+`scripts/validate_data.py`, needs `jsonschema` and `pyyaml`:
+
+    pip install -r requirements.txt
 
 ## How to use it
 
@@ -93,8 +102,11 @@ Python's standard library.
    **For real use:** skip that and just start creating
    files directly under `data/` — talk to the Skill (via an AI assistant
    that supports Agent Skills) to log a 1:1 or prep for one, and it
-   files structured entries under `data/1on1/` and `data/idp/`. Either
-   way, `data/` stays private and untracked.
+   files structured entries under `data/1on1/` and `data/idp/`. After
+   writing or updating an entry, the Skill self-validates it against
+   `schema/*.json` (see [`SKILL.md`](./SKILL.md) Step 6) before
+   considering the task done, so validation isn't a separate manual
+   chore. Either way, `data/` stays private and untracked.
 3. After adding or editing any files under `data/1on1/` or `data/idp/`,
    regenerate `data/index.json` (the index the dashboard fetches) by
    running the index generation script:
